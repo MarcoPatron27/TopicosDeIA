@@ -1,3 +1,9 @@
+REPOSITORIO DE LA CLASE DE TOPICOS DE IA
+TECNOLOGICO DE CULIACAN
+INGENIERIA EN Tecnologías de la Información y las Comunicaciones
+
+MARCO ANTONIO RAFAEL PATRON
+
 La Inteligencia Artificial es una disciplina que ha revolucionado múltiples sectores en las últimas décadas. Su capacidad para imitar el razonamiento humano, aprender de datos y tomar decisiones autónomas la ha convertido en una herramienta indispensable en el mundo moderno. Este documento explora las principales áreas de la IA y sus aplicaciones en diversos campos, destacando su impacto en la sociedad, la economía y la tecnología. Además, se presentan fuentes confiables que respaldan la información proporcionada.
 
 
