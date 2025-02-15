@@ -1,0 +1,66 @@
+# Instalar scikit-fuzzy (por si acaso no está instalado)
+!pip install scikit-fuzzy
+
+# Importar las bibliotecas necesarias
+import numpy as np
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+import matplotlib.pyplot as plt
+
+# 1. Definición de las variables de entrada y salida
+temperatura = ctrl.Antecedent(np.arange(10, 41, 1), 'temperatura')
+humedad = ctrl.Antecedent(np.arange(0, 101, 1), 'humedad')
+ventilacion = ctrl.Consequent(np.arange(0, 101, 1), 'ventilacion')
+
+# 2. Definición de los conjuntos difusos para la temperatura
+temperatura['fria'] = fuzz.trimf(temperatura.universe, [10, 10, 20])
+temperatura['templada'] = fuzz.trimf(temperatura.universe, [15, 25, 30])
+temperatura['caliente'] = fuzz.trimf(temperatura.universe, [25, 40, 40])
+
+# 3. Definición de los conjuntos difusos para la humedad
+humedad['baja'] = fuzz.trimf(humedad.universe, [0, 0, 40])
+humedad['media'] = fuzz.trimf(humedad.universe, [30, 50, 70])
+humedad['alta'] = fuzz.trimf(humedad.universe, [60, 100, 100])
+
+# 4. Definición de los conjuntos difusos para la ventilación
+ventilacion['baja'] = fuzz.trimf(ventilacion.universe, [0, 0, 50])
+ventilacion['media'] = fuzz.trimf(ventilacion.universe, [30, 50, 70])
+ventilacion['alta'] = fuzz.trimf(ventilacion.universe, [50, 100, 100])
+
+# 5. Visualización de los conjuntos difusos (opcional)
+print("Conjuntos difusos para la temperatura:")
+temperatura.view()
+plt.show()
+
+print("Conjuntos difusos para la humedad:")
+humedad.view()
+plt.show()
+
+print("Conjuntos difusos para la ventilación:")
+ventilacion.view()
+plt.show()
+
+# 6. Definición de las reglas difusas
+regla1 = ctrl.Rule(temperatura['fria'] & humedad['baja'], ventilacion['baja'])
+regla2 = ctrl.Rule(temperatura['templada'] & humedad['media'], ventilacion['media'])
+regla3 = ctrl.Rule(temperatura['caliente'] & humedad['alta'], ventilacion['alta'])
+
+# 7. Creación del sistema de control
+sistema_control = ctrl.ControlSystem([regla1, regla2, regla3])
+sistema = ctrl.ControlSystemSimulation(sistema_control)
+
+# 8. Ingreso de valores de entrada
+sistema.input['temperatura'] = 28  # Temperatura en °C
+sistema.input['humedad'] = 65      # Humedad en %
+
+# 9. Computar el resultado
+sistema.compute()
+
+# 10. Obtención del valor de salida
+velocidad_ventilacion = sistema.output['ventilacion']
+print(f"Velocidad del ventilador: {velocidad_ventilacion:.2f}%")
+
+# 11. Visualización de la salida difusa (opcional)
+print("Salida difusa para la ventilación:")
+ventilacion.view(sim=sistema)
+plt.show()
